@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediFlow - AI Hospital Chat</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <!-- Custom Chat CSS -->
+  <style>
+    :root {
+      --primary-color: #32007d;
+      --secondary-color: #6b21a8;
+      --accent-color: #7928ca;
+      --light-color: #f5f5f7;
+      --dark-color: #333;
+      --success-color: #00b65b;
+      --warning-color: #ffa500;
+      --danger-color: #f70000;
+      --border-radius: 12px;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f5f5f7;
+      color: var(--dark-color);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+    
+    .logo i {
+      font-size: 24px;
+    }
+    
+    .logo h1 {
+      font-size: 24px;
+      font-weight: 700;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    
+    .nav-link {
+      color: var(--dark-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    
+    .nav-link:hover {
+      color: var(--primary-color);
+    }
+    
+    .nav-link.active {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+    
+    .chat-container {
+      display: flex;
+      height: calc(100vh - 140px);
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    
+    .chat-sidebar {
+      width: 280px;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .sidebar-header {
+      margin-bottom: 20px;
+    }
+    
+    .sidebar-header h2 {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+    
+    .sidebar-header p {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+    
+    .quick-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .action-button {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: white;
+      padding: 12px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background-color 0.3s;
+      font-weight: 500;
+    }
+    
+    .action-button:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .action-button i {
+      font-size: 18px;
+    }
+    
+    .chat-history {
+      flex: 1;
+      overflow-y: auto;
+      margin-top: 20px;
+    }
+    
+    .history-item {
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .history-item:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .history-item.active {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+    
+    .history-item h4 {
+      font-size: 14px;
+      margin-bottom: 3px;
+    }
+    
+    .history-item p {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+    
+    .chat-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .chat-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .chat-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .chat-title .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+    }
+    
+    .chat-title .info h3 {
+      font-size: 16px;
+      margin-bottom: 2px;
+    }
+    
+    .chat-title .info p {
+      font-size: 12px;
+      color: #666;
+    }
+    
+    .chat-actions {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .chat-action {
+      background: none;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      font-size: 18px;
+      transition: color 0.3s;
+    }
+    
+    .chat-action:hover {
+      color: var(--primary-color);
+    }
+    
+    .chat-messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .message {
+      max-width: 70%;
+      padding: 12px 15px;
+      border-radius: 18px;
+      position: relative;
+      line-height: 1.5;
+    }
+    
+    .message.user {
+      align-self: flex-end;
+      background-color: var(--primary-color);
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+    
+    .message.bot {
+      align-self: flex-start;
+      background-color: #f0f0f0;
+      color: var(--dark-color);
+      border-bottom-left-radius: 4px;
+    }
+    
+    .message-time {
+      font-size: 11px;
+      opacity: 0.7;
+      margin-top: 5px;
+      text-align: right;
+    }
+    
+    .message.user .message-time {
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .message.bot .message-time {
+      color: #666;
+    }
+    
+    .suggestion-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    
+    .suggestion-chip {
+      background-color: #f0f0f0;
+      color: var(--dark-color);
+      border: none;
+      padding: 8px 15px;
+      border-radius: 18px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+    }
+    
+    .suggestion-chip:hover {
+      background-color: #e0e0e0;
+    }
+    
+    .chat-input {
+      padding: 15px 20px;
+      border-top: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .input-field {
+      flex: 1;
+      position: relative;
+    }
+    
+    .input-field input {
+      width: 100%;
+      padding: 12px 15px;
+      padding-right: 40px;
+      border: 1px solid #ddd;
+      border-radius: 24px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    
+    .input-field input:focus {
+      border-color: var(--primary-color);
+    }
+    
+    .input-field button {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--primary-color);
+      cursor: pointer;
+      font-size: 18px;
+    }
+    
+    .input-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .input-action {
+      background: none;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      font-size: 18px;
+      transition: color 0.3s;
+    }
+    
+    .input-action:hover {
+      color: var(--primary-color);
+    }
+    
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      .chat-container {
+        flex-direction: column;
+        height: calc(100vh - 100px);
+      }
+      
+      .chat-sidebar {
+        width: 100%;
+        height: auto;
+        padding: 15px;
+      }
+      
+      .quick-actions {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 10px;
+      }
+      
+      .action-button {
+        white-space: nowrap;
+      }
+      
+      .chat-history {
+        display: none;
+      }
+      
+      .message {
+        max-width: 85%;
+      }
+    }
+    
+    /* Loading indicator */
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 10px 15px;
+      background-color: #f0f0f0;
+      border-radius: 18px;
+      align-self: flex-start;
+      margin-top: 5px;
+    }
+    
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #888;
+      border-radius: 50%;
+      animation: typing-animation 1.4s infinite ease-in-out;
+    }
+    
+    .typing-dot:nth-child(1) {
+      animation-delay: 0s;
+    }
+    
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+    
+    @keyframes typing-animation {
+      0%, 60%, 100% {
+        transform: translateY(0);
+      }
+      30% {
+        transform: translateY(-5px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="Clarachatbot">
+    <script>
+        (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="tu7moVg4H9PNO2Dgztf41";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+        </script>
+</div>
+  <div class="container">
+    <header class="header">
+      <a href="index.html" class="logo">
+        <i class="fas fa-heartbeat"></i>
+        <h1>MediFlow</h1>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="appointments.html" class="nav-link">Appointments</a>
+        <a href="hospitals.html" class="nav-link">Hospitals</a>
+        <a href="emergency.html" class="nav-link">Emergency</a>
+        <a href="chat.html" class="nav-link active">Chat</a>
+      </nav>
+    </header>
+    
+    <div class="chat-container">
+      <div class="chat-sidebar">
+        <div class="sidebar-header">
+          <h2>MediFlow Assistant</h2>
+          <p>Your AI healthcare companion</p>
+        </div>
+        
+        <div class="quick-actions">
+          <button class="action-button" id="bookAppointmentBtn">
+            <i class="fas fa-calendar-check"></i>
+            Book Appointment
+          </button>
+          <button class="action-button" id="bookAmbulanceBtn">
+            <i class="fas fa-ambulance"></i>
+            Book Ambulance
+          </button>
+          <button class="action-button" id="findHospitalBtn">
+            <i class="fas fa-hospital"></i>
+            Find Hospital
+          </button>
+          <button class="action-button" id="healthTipsBtn">
+            <i class="fas fa-notes-medical"></i>
+            Health Tips
+          </button>
+        </div>
+        
+        <div class="chat-history">
+          <h3>Recent Chats</h3>
+          <div class="history-item active">
+            <h4>General Consultation</h4>
+            <p>Today, 10:30 AM</p>
+          </div>
+          <div class="history-item">
+            <h4>Appointment Booking</h4>
+            <p>Yesterday, 2:15 PM</p>
+          </div>
+          <div class="history-item">
+            <h4>Medication Inquiry</h4>
+            <p>Mar 28, 9:45 AM</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="chat-main">
+        <div class="chat-header">
+          <div class="chat-title">
+            <div class="avatar">
+              <i class="fas fa-robot"></i>
+            </div>
+            <div class="info">
+              <h3>MediFlow Assistant</h3>
+              <p>Online</p>
+            </div>
+          </div>
+          <div class="chat-actions">
+            <button class="chat-action" title="Clear Chat">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+            <button class="chat-action" title="Settings">
+              <i class="fas fa-cog"></i>
+            </button>
+          </div>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+          <div class="message bot">
+            <div class="message-content">
+              Hello! I'm your MediFlow Assistant. How can I help you today? You can ask me about booking appointments, finding hospitals, or medical advice.
+            </div>
+            <div class="message-time">10:30 AM</div>
+            <div class="suggestion-chips">
+              <button class="suggestion-chip">Book an appointment</button>
+              <button class="suggestion-chip">Find a hospital</button>
+              <button class="suggestion-chip">Medical advice</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="chat-input">
+          <div class="input-field">
+            <input type="text" id="messageInput" placeholder="Type your message here..." autocomplete="off">
+            <button id="sendMessage">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
+          <div class="input-actions">
+            <button class="input-action" title="Attach File">
+              <i class="fas fa-paperclip"></i>
+            </button>
+            <button class="input-action" title="Voice Input">
+              <i class="fas fa-microphone"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Chat JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const chatMessages = document.getElementById('chatMessages');
+      const messageInput = document.getElementById('messageInput');
+      const sendMessage = document.getElementById('sendMessage');
+      const bookAppointmentBtn = document.getElementById('bookAppointmentBtn');
+      const bookAmbulanceBtn = document.getElementById('bookAmbulanceBtn');
+      const findHospitalBtn = document.getElementById('findHospitalBtn');
+      const healthTipsBtn = document.getElementById('healthTipsBtn');
+      const suggestionChips = document.querySelectorAll('.suggestion-chip');
+      
+      // Function to add a message to the chat
+      function addMessage(content, isUser = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+        
+        const messageContent = document.createElement('div');
+        messageContent.className = 'message-content';
+        messageContent.textContent = content;
+        
+        const messageTime = document.createElement('div');
+        messageTime.className = 'message-time';
+        
+        // Get current time
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const formattedHours = hours % 12 || 12;
+        const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+        
+        messageTime.textContent = `${formattedHours}:${formattedMinutes} ${ampm}`;
+        
+        messageDiv.appendChild(messageContent);
+        messageDiv.appendChild(messageTime);
+        
+        chatMessages.appendChild(messageDiv);
+        
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        return messageDiv;
+      }
+      
+      // Function to show typing indicator
+      function showTypingIndicator() {
+        const indicator = document.createElement('div');
+        indicator.className = 'typing-indicator';
+        indicator.id = 'typingIndicator';
+        
+        for (let i = 0; i < 3; i++) {
+          const dot = document.createElement('div');
+          dot.className = 'typing-dot';
+          indicator.appendChild(dot);
+        }
+        
+        chatMessages.appendChild(indicator);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        return indicator;
+      }
+      
+      // Function to hide typing indicator
+      function hideTypingIndicator() {
+        const indicator = document.getElementById('typingIndicator');
+        if (indicator) {
+          indicator.remove();
+        }
+      }
+      
+      // Function to process user message and get bot response
+      function processMessage(message) {
+        // Show typing indicator
+        showTypingIndicator();
+        
+        // Process message after a delay to simulate thinking
+        setTimeout(() => {
+          hideTypingIndicator();
+          
+          // Check for keywords in the message
+          const lowerMessage = message.toLowerCase();
+          
+          if (lowerMessage.includes('book') && lowerMessage.includes('appointment')) {
+            // Book appointment
+            bookRandomAppointment();
+          } else if (lowerMessage.includes('book') && lowerMessage.includes('ambulance')) {
+            // Book ambulance
+            bookAmbulance();
+          } else if (lowerMessage.includes('find') && lowerMessage.includes('hospital')) {
+            // Find hospital
+            addMessage("I can help you find a hospital. Let me redirect you to our hospitals page.");
+            setTimeout(() => {
+              window.location.href = 'hospitals.html';
+            }, 1500);
+          } else if (lowerMessage.includes('health') && (lowerMessage.includes('tip') || lowerMessage.includes('advice'))) {
+            // Health tips
+            provideHealthTips();
+          } else {
+            // General response
+            addMessage("I'm here to help with your healthcare needs. You can ask me to book an appointment, find a hospital, or get health tips.");
+            
+            // Add suggestion chips
+            const lastMessage = chatMessages.lastElementChild;
+            const suggestions = document.createElement('div');
+            suggestions.className = 'suggestion-chips';
+            
+            const options = ['Book an appointment', 'Book an ambulance', 'Find a hospital', 'Health tips'];
+            
+            options.forEach(option => {
+              const chip = document.createElement('button');
+              chip.className = 'suggestion-chip';
+              chip.textContent = option;
+              chip.addEventListener('click', () => {
+                const userMessage = addMessage(option, true);
+                processMessage(option);
+              });
+              suggestions.appendChild(chip);
+            });
+            
+            lastMessage.appendChild(suggestions);
+          }
+        }, 1500);
+      }
+      
+      // Function to book a random appointment
+      function bookRandomAppointment() {
+        addMessage("I'll help you book an appointment. Let me set that up for you...");
+        
+        // Generate random appointment data
+        const hospitals = ['City General Hospital', 'Memorial Medical Center', 'Riverside Health Center', 'Community Medical Center'];
+        const doctors = ['Dr. Sarah Johnson', 'Dr. Michael Chen', 'Dr. Anita Patel', 'Dr. Carlos Rodriguez'];
+        const departments = ['Cardiology', 'Neurology', 'Orthopedics', 'Pediatrics', 'Dermatology'];
+        
+        // Random selection
+        const hospital = hospitals[Math.floor(Math.random() * hospitals.length)];
+        const doctor = doctors[Math.floor(Math.random() * doctors.length)];
+        const department = departments[Math.floor(Math.random() * departments.length)];
+        
+        // Generate date (between tomorrow and 14 days from now)
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        
+        const futureDate = new Date();
+        futureDate.setDate(futureDate.getDate() + 14);
+        
+        const randomDate = new Date(tomorrow.getTime() + Math.random() * (futureDate.getTime() - tomorrow.getTime()));
+        const formattedDate = randomDate.toISOString().split('T')[0];
+        
+        // Generate time
+        const hours = [9, 10, 11, 13, 14, 15, 16];
+        const randomHour = hours[Math.floor(Math.random() * hours.length)];
+        const randomMinute = Math.random() < 0.5 ? '00' : '30';
+        const ampm = randomHour >= 12 ? 'PM' : 'AM';
+        const formattedHour = randomHour > 12 ? randomHour - 12 : randomHour;
+        const formattedTime = `${formattedHour}:${randomMinute} ${ampm}`;
+        
+        // Generate queue number
+        const queueNumber = Math.floor(Math.random() * 30) + 1;
+        
+        // Create appointment object
+        const appointment = {
+          id: Date.now().toString(),
+          hospital: hospital,
+          doctor: doctor,
+          department: department,
+          date: formattedDate,
+          time: formattedTime,
+          reason: "General checkup",
+          queueNumber: queueNumber,
+          status: 'confirmed'
+        };
+        
+        // Store in localStorage
+        localStorage.setItem('lastBookedAppointment', JSON.stringify(appointment));
+        
+        // Show confirmation message
+        setTimeout(() => {
+          addMessage(`Appointment booked successfully! Here are the details:
+          
+Hospital: ${hospital}
+Doctor: ${doctor}
+Department: ${department}
+Date: ${formattedDate}
+Time: ${formattedTime}
+Queue Number: #${queueNumber}
+
+I'll redirect you to the appointments page to view your booking.`);
+          
+          // Redirect to appointments page after a delay
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 3000);
+        }, 1500);
+      }
+      
+      // Function to book an ambulance
+      function bookAmbulance() {
+        addMessage("I'm booking an ambulance for you right away. Please hold on...");
+        
+        // Set flag for emergency page
+        sessionStorage.setItem('ambulanceRequested', 'true');
+        
+        // Show confirmation message
+        setTimeout(() => {
+          const ambulanceId = Math.floor(Math.random() * 1000) + 1;
+          const estimatedTime = Math.floor(Math.random() * 15) + 5; // 5-20 minutes
+          
+          addMessage(`Ambulance #${ambulanceId} has been dispatched to your location. Estimated arrival time: ${estimatedTime} minutes. I'll redirect you to the emergency tracking page.`);
+          
+          // Redirect to emergency page after a delay
+          setTimeout(() => {
+            window.location.href = 'emergency.html';
+          }, 2000);
+        }, 1500);
+      }
+      
+      // Function to provide health tips
+      function provideHealthTips() {
+        const tips = [
+          "Stay hydrated by drinking at least 8 glasses of water daily.",
+          "Aim for 7-9 hours of quality sleep each night to support overall health.",
+          "Regular physical activity can reduce stress and improve your mood.",
+          "Include a variety of fruits and vegetables in your diet for essential nutrients.",
+          "Practice mindfulness or meditation to reduce stress and improve mental clarity.",
+          "Limit processed foods and added sugars in your diet.",
+          "Regular health check-ups can help detect issues early.",
+          "Wash your hands frequently to prevent the spread of germs.",
+          "Take short breaks during work to reduce eye strain and mental fatigue.",
+          "Stay up to date with vaccinations to protect yourself and others."
+        ];
+        
+        // Select 3 random tips
+        const selectedTips = [];
+        while (selectedTips.length < 3) {
+          const randomTip = tips[Math.floor(Math.random() * tips.length)];
+          if (!selectedTips.includes(randomTip)) {
+            selectedTips.push(randomTip);
+          }
+        }
+        
+        // Format tips
+        const tipsMessage = `Here are some health tips for you:
+
+1. ${selectedTips[0]}
+2. ${selectedTips[1]}
+3. ${selectedTips[2]}
+
+Is there anything specific you'd like advice on?`;
+        
+        addMessage(tipsMessage);
+      }
+      
+      // Event listener for send button
+      sendMessage.addEventListener('click', function() {
+        const message = messageInput.value.trim();
+        
+        if (message) {
+          // Add user message to chat
+          addMessage(message, true);
+          
+          // Clear input
+          messageInput.value = '';
+          
+          // Process message
+          processMessage(message);
+        }
+      });
+      
+      // Event listener for Enter key
+      messageInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          sendMessage.click();
+        }
+      });
+      
+      // Event listeners for quick action buttons
+      bookAppointmentBtn.addEventListener('click', function() {
+        const message = "Book an appointment";
+        addMessage(message, true);
+        processMessage(message);
+      });
+      
+      bookAmbulanceBtn.addEventListener('click', function() {
+        const message = "Book an ambulance";
+        addMessage(message, true);
+        processMessage(message);
+      });
+      
+      findHospitalBtn.addEventListener('click', function() {
+        const message = "Find a hospital";
+        addMessage(message, true);
+        processMessage(message);
+      });
+      
+      healthTipsBtn.addEventListener('click', function() {
+        const message = "Give me some health tips";
+        addMessage(message, true);
+        processMessage(message);
+      });
+      
+      // Event listeners for suggestion chips
+      suggestionChips.forEach(chip => {
+        chip.addEventListener('click', function() {
+          const message = this.textContent;
+          addMessage(message, true);
+          processMessage(message);
+        });
+      });
+    });
+  </script>
+  
+  <!-- Chatbase Integration Script -->
+  <script src="js/chatbase-integration.js"></script>
+</body>
+</html>
+

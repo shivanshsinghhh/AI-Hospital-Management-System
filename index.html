@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>MediFlow</title>
+    <link rel="shortcut icon" href="Untitled-73.png" type="image/x-icon">
+</head>
+<body>
+    
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="logo-container">
+            <div class="logo-text">
+                <span class="medi">Medi</span><span class="flow">Flow</span>
+            </div>
+        </div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+    <div class="Clarachatbot">
+        <script>
+            (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="tu7moVg4H9PNO2Dgztf41";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+            </script>
+    </div>
+    <!-- Main Content -->
+    <div class="main-content" id="main-content">
+        <!-- Header -->
+        <header>
+            <div class="container" id="header1">
+                <div class="logo">
+                    <img src="Untitled-72.png" alt="MediFlow Logo">
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html" class="active">Home</a></li>
+                        <li><a href="appointments.html">Appointment</a></li>
+                        <li><a href="hospitals.html">Hospitals</a></li>
+                        <li><a href="emergency.html" class="emergency-btn">Emergency</a></li>
+                    </ul>
+                </nav>
+                <div class="mobile-menu-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Enhancing care<br>Reducing wait</h1>
+                    <p>MediFlow is an AI-powered hospital management system designed to optimize patient care and staff efficiency/workload distribution.</p>
+                    <div class="cta-buttons">
+                        <a href="login.html" class="btn primary-btn">Get started</a>
+                        <a href="about.html" class="btn secondary-btn">Learn More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="doctors .png" alt="Medical Professionals">
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Boxes -->
+        <section class="features">
+            <div class="container">
+                <div class="feature-box green">
+                    <h3 >Schedule your Appointments</h3>
+                    <a href="appointments.html" class="feature-btn dark">
+                        Explore
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="feature-box purple">
+                    <h3>Choose from the best hospitals Near you</h3>
+                    <a href="hospitals.html" class="feature-btn light">
+                        Hospitals
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="feature-box light-purple">
+                    <h3>Get in priority queue using AI chat</h3>
+                    <a href="chat.html" class="feature-btn dark">
+                        Clara Chat
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Assistant Section -->
+        <section class="ai-assistant">
+            <div class="container">
+                <div class="ai-info">
+                    <h2>CLARA <span>(AI assistant)</span></h2>
+                    <p>Clara is the intelligent AI powering smarter, more efficient hospitals. She streamlines patient triage, instantly assessing urgency and optimizing queues to reduce waiting times</p>
+                    <a href="chat.html" class="btn chat-btn">
+                        Chat With Clara
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="ai-help">
+                    <div class="claratext">
+                        <h3>Need any help?</h3>
+                        <p>Hi, Clara this side.<br>I can help you with any problem and can provide you with a better solution</p>
+                    </div>
+                    <div class="clara-image">
+                        <img src="claradoctor.png" alt="Clara AI Assistant">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section class="about-us">
+            <div class="container">
+                <div class="about-content">
+                    <h2>About us</h2>
+                    <p>MediFlow is an AI-driven hospital management app designed to streamline healthcare operations. Powered by Clara, our intelligent AI assistant, the app optimizes patient triage, scheduling, ambulance routing, thermal screening, and staff workload management.</p>
+                    <p>By integrating real-time data and predictive analytics, MediFlow enhances efficiency, reduces waiting times, and ensures better patient care, making hospitals smarter and more responsive.</p>
+                    <a href="contact.html" class="btn primary-btn">CONTACT US</a>
+                </div>
+                <div class="about-image">
+                    <img src="female-doctor-stock-2-042324-a7bc2e3ef76b4512b6792338539a9b03.jpg" alt="Medical Professional">
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    
+                    <div class="footertexting">
+                        
+                        <div class="footer-links">
+                            <a href="index.html">HOME</a>
+                            <a href="chat.html">AI ASSISTANT</a>
+                            <a href="contact.html">CONTACT US</a>
+                            <a href="about.html">ABOUT US</a>
+                        </div>
+                        <div class="copyright">
+                            <h2>MediFlow</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Loading screen animation
+        window.addEventListener('load', function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const mainContent = document.getElementById('main-content');
+            const loadingProgress = document.querySelector('.loading-progress');
+            
+            // Simulate loading progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 5;
+                loadingProgress.style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loadingScreen.classList.add('fade-out');
+                        mainContent.classList.add('fade-in');
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                        }, 500);
+                    }, 500);
+                }
+            }, 100);
+            
+            // Mobile menu toggle
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const nav = document.querySelector('nav');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                this.classList.toggle('active');
+                nav.classList.toggle('active');
+            });
+        });
+    </script>
+    <script src="js/chatbase-integration.js"></script>
+</body>
+</html>

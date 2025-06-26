@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments</title>
+    <link rel="shortcut icon" href="Untitled-73.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            background-color: #000000;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            height: 100%;
+            margin: 0 auto;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            z-index: 100;
+            height: 80px;
+            width: 100%;
+            background-color: #000000;
+            color: #fff;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo {
+            max-width: 150px;
+            padding-left: 20px;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: #ca6fff;
+        }
+
+        .emergency-btn {
+            background-color: #ff0000;
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .emergency-btn:hover {
+            background-color: #ffffff;
+            transform: translateX(5px);
+            color: red;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        /* Appointments Container */
+        .appointments-container {
+            padding: 100px 20px 40px;
+            min-height: 80vh;
+            background-color: #d998ff;
+        }
+        
+        .appointments-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .appointments-header h1 {
+            color: #ffffff;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .appointments-header p {
+            color: #ffffff;
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .appointments-tabs {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            display: flex;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            background-color: #32007d;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Upcoming Appointments */
+        /* .appointments-container{
+            max-height: calc(50vh-500px);
+        } */
+        .appointment-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .appointment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .appointment-hospital {
+            font-weight: 700;
+            font-size: 18px;
+            color: #32007d;
+        }
+        
+        .appointment-status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-confirmed {
+            background-color: #e6f7ee;
+            color: #00b65b;
+        }
+        
+        .status-pending {
+            background-color: #fff8e6;
+            color: #ffa500;
+        }
+        
+        .appointment-details {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        
+        .appointment-date {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+        
+        .date-day {
+            font-size: 24px;
+            font-weight: 700;
+            color: #32007d;
+        }
+        
+        .date-month {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .appointment-info {
+            flex: 1;
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 8px;
+        }
+        
+        .info-label {
+            width: 100px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .info-value {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .appointment-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .reschedule-btn {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        
+        .cancel-btn {
+            background-color: #ffebeb;
+            color: #f70000;
+        }
+        
+        .directions-btn {
+            background-color: #32007d;
+            color: white;
+        }
+        
+        /* Book New Appointment */
+        .booking-form {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .form-group select:focus,
+        .form-group input:focus {
+            border-color: #9333EA;
+            outline: none;
+        }
+        
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .time-slot {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .time-slot:hover {
+            border-color: #9333EA;
+        }
+        
+        .time-slot.selected {
+            background-color: #32007d;
+            color: white;
+            border-color: #32007d;
+        }
+        
+        .submit-btn {
+            background-color: #32007d;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #7400a1;
+        }
+        
+        /* History */
+        .history-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            opacity: 0.8;
+        }
+        
+        .status-completed {
+            background-color: #e6f7ee;
+            color: #00b65b;
+        }
+        
+        .status-cancelled {
+            background-color: #ffebeb;
+            color: #f70000;
+        }
+        
+        .history-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .rebook-btn {
+            background-color: #32007d;
+            color: white;
+        }
+        
+        .feedback-btn {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #000000;
+            padding-top: 60px;
+            padding-bottom: 80px;
+            color: #fff;
+        }
+
+        .footer-content {
+            background-color: #000000;
+            width: auto;
+            height: auto;
+            border-radius: 40px;
+        }
+
+        .footer-content h2 {
+            font-size: 60px;
+            font-weight: 700;
+            color: rgb(0, 255, 64);
+        }
+
+        .footer-content h2:hover {
+            color: #ffffff;
+            transition-delay: 0s;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: start;
+            width: 100%;
+            height: auto;
+        }
+
+        .footer-links a {
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .footertexting {
+            display: flex;
+            align-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .footer-links a:hover {
+            color: #ff62f2;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .time-slots {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .appointment-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .appointment-details {
+                flex-direction: column;
+            }
+            
+            .appointment-date {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #000;
+                padding: 20px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                transform: translateY(-20px);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+            
+            nav.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .time-slots {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .appointment-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="Clarachatbot">
+        <script>
+            (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="tu7moVg4H9PNO2Dgztf41";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+            </script>
+    </div>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Untitled-72-fTMoKvII8l183GuPbqfKVzFxK1Qcle.png" alt="MediFlow Logo">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="appointments.html" class="active">Appointment</a></li>
+                    <li><a href="hospitals.html">Hospitals</a></li>
+                    <li><a href="emergency.html" class="emergency-btn">Emergency</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <div class="appointments-container">
+        <div class="appointments-header">
+            <h1>Manage Your Appointments</h1>
+            <p>View upcoming appointments, book new ones, or check your appointment history.</p>
+        </div>
+        
+        <div class="appointments-tabs">
+            <div class="tab active" data-tab="upcoming">Upcoming</div>
+            <div class="tab" data-tab="book">Book New</div>
+            <div class="tab" data-tab="history">History</div>
+        </div>
+        
+        <!-- Upcoming Appointments Tab -->
+        <div class="tab-content active" id="upcoming-tab">
+            <div class="appointment-card">
+                <div class="appointment-header">
+                    <div class="appointment-hospital">Memorial Medical Center</div>
+                    <div class="appointment-status status-confirmed">Confirmed</div>
+                </div>
+                <div class="appointment-details">
+                    <div class="appointment-date">
+                        <div class="date-day">15</div>
+                        <div class="date-month">May</div>
+                    </div>
+                    <div class="appointment-info">
+                        <div class="info-row">
+                            <div class="info-label">Doctor:</div>
+                            <div class="info-value">Dr. Sarah Johnson</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Department:</div>
+                            <div class="info-value">Cardiology</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Time:</div>
+                            <div class="info-value">10:30 AM</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Queue No:</div>
+                            <div class="info-value">#15</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="appointment-actions">
+                    <button class="action-btn reschedule-btn">Reschedule</button>
+                    <button class="action-btn cancel-btn">Cancel</button>
+                    <button class="action-btn directions-btn">Get Directions</button>
+                </div>
+            </div>
+            
+            <div class="appointment-card">
+                <div class="appointment-header">
+                    <div class="appointment-hospital">City General Hospital</div>
+                    <div class="appointment-status status-pending">Pending</div>
+                </div>
+                <div class="appointment-details">
+                    <div class="appointment-date">
+                        <div class="date-day">22</div>
+                        <div class="date-month">May</div>
+                    </div>
+                    <div class="appointment-info">
+                        <div class="info-row">
+                            <div class="info-label">Doctor:</div>
+                            <div class="info-value">Dr. Michael Chen</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Department:</div>
+                            <div class="info-value">Neurology</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Time:</div>
+                            <div class="info-value">2:15 PM</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Queue No:</div>
+                            <div class="info-value">#23</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="appointment-actions">
+                    <button class="action-btn reschedule-btn">Reschedule</button>
+                    <button class="action-btn cancel-btn">Cancel</button>
+                    <button class="action-btn directions-btn">Get Directions</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Book New Appointment Tab -->
+        <div class="tab-content" id="book-tab">
+            <div class="booking-form">
+                <form id="appointmentForm">
+                    <div class="form-group">
+                        <label for="hospital">Select Hospital</label>
+                        <select id="hospital" name="hospital" required>
+                            <option value="">-- Select Hospital --</option>
+                            <option value="city-general">City General Hospital</option>
+                            <option value="memorial-medical">Memorial Medical Center</option>
+                            <option value="riverside-health">Riverside Health Center</option>
+                            <option value="community-medical">Community Medical Center</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="department">Select Department</label>
+                        <select id="department" name="department" required>
+                            <option value="">-- Select Department --</option>
+                            <option value="cardiology">Cardiology</option>
+                            <option value="neurology">Neurology</option>
+                            <option value="orthopedics">Orthopedics</option>
+                            <option value="pediatrics">Pediatrics</option>
+                            <option value="dermatology">Dermatology</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="doctor">Select Doctor</label>
+                        <select id="doctor" name="doctor" required>
+                            <option value="">-- Select Doctor --</option>
+                            <option value="dr-johnson">Dr. Sarah Johnson</option>
+                            <option value="dr-chen">Dr. Michael Chen</option>
+                            <option value="dr-patel">Dr. Anita Patel</option>
+                            <option value="dr-rodriguez">Dr. Carlos Rodriguez</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="date">Select Date</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Select Time Slot</label>
+                        <div class="time-slots">
+                            <div class="time-slot" data-time="09:00">9:00 AM</div>
+                            <div class="time-slot" data-time="09:30">9:30 AM</div>
+                            <div class="time-slot" data-time="10:00">10:00 AM</div>
+                            <div class="time-slot" data-time="10:30">10:30 AM</div>
+                            <div class="time-slot" data-time="11:00">11:00 AM</div>
+                            <div class="time-slot" data-time="11:30">11:30 AM</div>
+                            <div class="time-slot" data-time="13:00">1:00 PM</div>
+                            <div class="time-slot" data-time="13:30">1:30 PM</div>
+                            <div class="time-slot" data-time="14:00">2:00 PM</div>
+                            <div class="time-slot" data-time="14:30">2:30 PM</div>
+                            <div class="time-slot" data-time="15:00">3:00 PM</div>
+                            <div class="time-slot" data-time="15:30">3:30 PM</div>
+                        </div>
+                        <input type="hidden" id="time" name="time" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reason">Reason for Visit</label>
+                        <input type="text" id="reason" name="reason" placeholder="Brief description of your symptoms or reason" required>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Book Appointment</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- History Tab -->
+        <div class="tab-content" id="history-tab">
+            <div class="history-card">
+                <div class="appointment-header">
+                    <div class="appointment-hospital">City General Hospital</div>
+                    <div class="appointment-status status-completed">Completed</div>
+                </div>
+                <div class="appointment-details">
+                    <div class="appointment-date">
+                        <div class="date-day">28</div>
+                        <div class="date-month">Apr</div>
+                    </div>
+                    <div class="appointment-info">
+                        <div class="info-row">
+                            <div class="info-label">Doctor:</div>
+                            <div class="info-value">Dr. Anita Patel</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Department:</div>
+                            <div class="info-value">Dermatology</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Time:</div>
+                            <div class="info-value">11:00 AM</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="history-actions">
+                    <button class="action-btn rebook-btn">Book Follow-up</button>
+                    <button class="action-btn feedback-btn">Leave Feedback</button>
+                </div>
+            </div>
+            
+            <div class="history-card">
+                <div class="appointment-header">
+                    <div class="appointment-hospital">Riverside Health Center</div>
+                    <div class="appointment-status status-cancelled">Cancelled</div>
+                </div>
+                <div class="appointment-details">
+                    <div class="appointment-date">
+                        <div class="date-day">15</div>
+                        <div class="date-month">Apr</div>
+                    </div>
+                    <div class="appointment-info">
+                        <div class="info-row">
+                            <div class="info-label">Doctor:</div>
+                            <div class="info-value">Dr. Carlos Rodriguez</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Department:</div>
+                            <div class="info-value">Orthopedics</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Time:</div>
+                            <div class="info-value">2:30 PM</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="history-actions">
+                    <button class="action-btn rebook-btn">Rebook Appointment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footertexting">
+                    <div class="footer-links">
+                        <a href="index.html">HOME</a>
+                        <a href="chat.html">AI ASSISTANT</a>
+                        <a href="contact.html">CONTACT US</a>
+                        <a href="about.html">ABOUT US</a>
+                    </div>
+                    <div class="copyright">
+                        <h2>MediFlow</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('nav');
+        
+        mobileMenuBtn.addEventListener('click', function() {
+            this.classList.toggle('active');
+            nav.classList.toggle('active');
+        });
+        
+        // Tabs functionality
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to current tab and content
+                this.classList.add('active');
+                document.getElementById(tabId + '-tab').classList.add('active');
+            });
+        });
+        
+        // Time slot selection
+        const timeSlots = document.querySelectorAll('.time-slot');
+        const timeInput = document.getElementById('time');
+        
+        timeSlots.forEach(slot => {
+            slot.addEventListener('click', function() {
+                // Remove selected class from all slots
+                timeSlots.forEach(s => s.classList.remove('selected'));
+                
+                // Add selected class to current slot
+                this.classList.add('selected');
+                
+                // Update hidden input
+                timeInput.value = this.getAttribute('data-time');
+            });
+        });
+        
+        // Form submission
+        const appointmentForm = document.getElementById('appointmentForm');
+        
+        appointmentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const hospital = document.getElementById('hospital').value;
+            const department = document.getElementById('department').value;
+            const doctor = document.getElementById('doctor').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const reason = document.getElementById('reason').value;
+            
+            // Generate queue number (in a real app, this would come from the server)
+            const queueNumber = Math.floor(Math.random() * 30) + 1;
+            
+            // Show confirmation
+            alert(`Appointment booked successfully!\n\nHospital: ${document.getElementById('hospital').options[document.getElementById('hospital').selectedIndex].text}\nDoctor: ${document.getElementById('doctor').options[document.getElementById('doctor').selectedIndex].text}\nDate: ${date}\nTime: ${time}\n\nYour queue number is: #${queueNumber}`);
+            
+            // Reset form
+            this.reset();
+            timeSlots.forEach(s => s.classList.remove('selected'));
+            
+            // Switch to upcoming tab
+            document.querySelector('.tab[data-tab="upcoming"]').click();
+            
+            // In a real app, you would send this data to the server and update the UI with the new appointment
+        });
+        
+        // Action buttons functionality
+        document.querySelectorAll('.reschedule-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Switch to book tab and pre-fill form with current appointment details
+                document.querySelector('.tab[data-tab="book"]').click();
+            });
+        });
+        
+        document.querySelectorAll('.cancel-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const appointmentCard = this.closest('.appointment-card');
+                const hospitalName = appointmentCard.querySelector('.appointment-hospital').textContent;
+                const doctorName = appointmentCard.querySelector('.info-value').textContent;
+                
+                if (confirm(`Are you sure you want to cancel your appointment with ${doctorName} at ${hospitalName}?`)) {
+                    // In a real app, you would send a request to the server to cancel the appointment
+                    appointmentCard.remove();
+                    
+                    if (document.querySelectorAll('#upcoming-tab .appointment-card').length === 0) {
+                        document.getElementById('upcoming-tab').innerHTML = '<p style="text-align: center; padding: 30px; color: #666;">You have no upcoming appointments.</p>';
+                    }
+                }
+            });
+        });
+        
+        document.querySelectorAll('.directions-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const hospitalName = this.closest('.appointment-card').querySelector('.appointment-hospital').textContent;
+                
+                // In a real app, this would open Google Maps with directions to the hospital
+                alert(`Opening directions to ${hospitalName} in Google Maps.`);
+            });
+        });
+        
+        document.querySelectorAll('.rebook-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Switch to book tab and pre-fill form with previous appointment details
+                document.querySelector('.tab[data-tab="book"]').click();
+            });
+        });
+        
+        document.querySelectorAll('.feedback-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const hospitalName = this.closest('.history-card').querySelector('.appointment-hospital').textContent;
+                const doctorName = this.closest('.history-card').querySelector('.info-value').textContent;
+                
+                // In a real app, this would open a feedback form
+                alert(`Opening feedback form for your appointment with ${doctorName} at ${hospitalName}.`);
+            });
+        });
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const quickAddBtn = document.getElementById('quickAddAppointment');
+        const quickAddModal = document.getElementById('quickAddModal');
+        const quickAddForm = document.getElementById('quickAddForm');
+        const cancelQuickAdd = document.getElementById('cancelQuickAdd');
+        
+        // Set minimum date to tomorrow
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        document.getElementById('quickDate').min = tomorrow.toISOString().split('T')[0];
+        
+        // Show modal when quick add button is clicked
+        if (quickAddBtn) {
+          quickAddBtn.addEventListener('click', function() {
+            quickAddModal.style.display = 'block';
+          });
+        }
+        
+        // Hide modal when cancel button is clicked
+        if (cancelQuickAdd) {
+          cancelQuickAdd.addEventListener('click', function() {
+            quickAddModal.style.display = 'none';
+          });
+        }
+        
+        // Handle form submission
+        if (quickAddForm) {
+          quickAddForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const hospital = document.getElementById('quickHospital').value;
+            const doctor = document.getElementById('quickDoctor').value;
+            const department = document.getElementById('quickDepartment').value;
+            const date = document.getElementById('quickDate').value;
+            const time = document.getElementById('quickTime').value;
+            const reason = document.getElementById('quickReason').value;
+            
+            // Generate queue number
+            const queueNumber = Math.floor(Math.random() * 30) + 1;
+            
+            // Create appointment object
+            const appointment = {
+              id: Date.now().toString(),
+              hospital: hospital,
+              doctor: doctor,
+              department: department,
+              date: date,
+              time: time,
+              reason: reason,
+              queueNumber: queueNumber,
+              status: 'confirmed'
+            };
+            
+            // Get existing appointments from localStorage
+            const existingAppointments = localStorage.getItem('mediflow_appointments');
+            const appointments = existingAppointments ? JSON.parse(existingAppointments) : [];
+            
+            // Add new appointment to the beginning of the array
+            appointments.unshift(appointment);
+            
+            // Save to localStorage
+            localStorage.setItem('mediflow_appointments', JSON.stringify(appointments));
+            
+            // Show confirmation
+            alert(`Appointment booked successfully!\n\nHospital: ${hospital}\nDoctor: ${doctor}\nDate: ${date}\nTime: ${time}\n\nYour queue number is: #${queueNumber}`);
+            
+            // Hide modal
+            quickAddModal.style.display = 'none';
+            
+            // Reload the page to show the new appointment
+            window.location.reload();
+          });
+        }
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+          if (event.target === quickAddModal) {
+            quickAddModal.style.display = 'none';
+          }
+        });
+      });
+    </script>
+</body>
+</html>

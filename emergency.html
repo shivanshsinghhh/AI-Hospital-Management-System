@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Assistance</title>
+    <link rel="shortcut icon" href="Untitled-73.png" type="image/x-icon">
+    <link rel="stylesheet" href="styles11.css">
+    <link rel="stylesheet" href="styles-emergency.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="Clarachatbot">
+        <script>
+            (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="tu7moVg4H9PNO2Dgztf41";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+            </script>
+    </div>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Untitled-72-zB3aJg5Nnowp6uaaGt3F86GZV9AvAy.png" alt="MediFlow Logo">
+                </a>
+            </div>
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="appointments.html">Appointment</a></li>
+                    <li><a href="hospitals.html">Hospitals</a></li>
+                    <li><a href="emergency.html" class="emergency-btn active">Emergency</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-btn" id="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Emergency Container -->
+    <div class="emergency-container">
+        <div class="container">
+            <div class="emergency-header">
+                <h1>Emergency Assistance</h1>
+                <p>We'll connect you with the nearest ambulance and provide guidance until help arrives</p>
+            </div>
+            
+            <div id="emergency-request-form">
+                <div class="emergency-card">
+                    <div class="emergency-card-header">
+                        <h2 class="emergency-card-title">Request Emergency Assistance</h2>
+                        <p class="emergency-card-description">Please provide your phone number and enable location services</p>
+                    </div>
+                    <div class="emergency-card-content">
+                        <div class="form-group">
+                            <label for="phone-number"><i class="fas fa-phone"></i> Phone Number</label>
+                            <input type="tel" id="phone-number" class="form-control" placeholder="Enter your phone number" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-map-marker-alt"></i> Location Services</label>
+                            <p style="color: #666; font-size: 14px;">We need your location to find the nearest ambulance</p>
+                        </div>
+                    </div>
+                    <div class="emergency-card-footer">
+                        <button id="request-ambulance" class="btn primary-btn" style="background-color: #f70000;">Request Ambulance Now</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="emergency-tracking" style="display: none;">
+                <div class="emergency-grid">
+                    <div class="emergency-card">
+                        <div class="emergency-card-header">
+                            <h2 class="emergency-card-title">Ambulance Route</h2>
+                            <p class="emergency-card-description">Estimated arrival time: 8 minutes</p>
+                        </div>
+                        <div class="emergency-card-content">
+                            <div class="emergency-map" id="ambulance-map"></div>
+                            <div class="emergency-info">
+                                <h3>Ambulance Details</h3>
+                                <p>Vehicle: City Emergency Ambulance #42</p>
+                                <p>Driver: John Medic</p>
+                                <p>License: DL-5678</p>
+                            </div>
+                        </div>
+                        <div class="emergency-card-footer">
+                            <button class="btn secondary-btn">Call Driver</button>
+                            <button class="btn secondary-btn" style="color: #f70000; border-color: #f70000;">Cancel Request</button>
+                        </div>
+                    </div>
+                    
+                    <div class="emergency-card">
+                        <div class="emergency-card-header">
+                            <h2 class="emergency-card-title">Emergency Guidance</h2>
+                            <p class="emergency-card-description">Get help while waiting for the ambulance</p>
+                        </div>
+                        <div class="emergency-card-content">
+                            <div id="emergency-guidance">
+                                <div class="emergency-info">
+                                    <h3>Stay Calm</h3>
+                                    <p>Take deep breaths and try to remain calm. Help is on the way.</p>
+                                </div>
+                                <div class="emergency-info">
+                                    <h3>Clear the Area</h3>
+                                    <p>Make sure the patient has space and fresh air. Remove any obstacles.</p>
+                                </div>
+                                <div class="emergency-info">
+                                    <h3>Monitor Vital Signs</h3>
+                                    <p>If possible, monitor breathing and consciousness until help arrives.</p>
+                                </div>
+                                <button id="show-chat" class="btn primary-btn" style="width: 100%; margin-top: 20px; background-color: #f70000;">Chat with Clara for Emergency Guidance</button>
+                            </div>
+                            
+                            <div id="emergency-chat" style="display: none;" class="emergency-chat">
+                                <div class="chat-messages" id="emergency-chat-messages">
+                                    <div class="chat-message">
+                                        <div class="message-bubble bot">
+                                            <iframe
+    src="https://www.chatbase.co/chatbot-iframe/tu7moVg4H9PNO2Dgztf41"
+    width="100%"
+    style="height: 100%; min-height: 400px"
+    frameborder="0"
+></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <h2>MediFlow</h2>
+                <div class="footer-links">
+                    <a href="index.html">HOME</a>
+                    <a href="chat.html">AI ASSISTANT</a>
+                    <a href="contact.html">CONTACT US</a>
+                    <a href="about.html">ABOUT US</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts.js"></script>
+    <script>
+        // Emergency page specific script
+        document.addEventListener('DOMContentLoaded', function() {
+            const requestForm = document.getElementById('emergency-request-form');
+            const tracking = document.getElementById('emergency-tracking');
+            const requestBtn = document.getElementById('request-ambulance');
+            const showChatBtn = document.getElementById('show-chat');
+            const guidance = document.getElementById('emergency-guidance');
+            const chat = document.getElementById('emergency-chat');
+            const chatInput = document.getElementById('emergency-chat-input');
+            const sendBtn = document.getElementById('send-emergency-message');
+            const chatMessages = document.getElementById('emergency-chat-messages');
+            
+            // Emergency responses
+            const emergencyResponses = {
+                "chest pain": "If someone is experiencing chest pain, have them sit down and rest in a position that makes breathing comfortable. If the person is conscious, give them an aspirin to chew if they're not allergic. The ambulance is on the way.",
+                "breathing": "For breathing difficulties, help the person find a comfortable position, usually sitting up and leaning forward slightly. Loosen any tight clothing around their neck and chest. Stay calm and reassure them.",
+                "bleeding": "For severe bleeding, apply direct pressure to the wound with a clean cloth or bandage. If possible, elevate the injured area above the level of the heart. Keep applying pressure until the ambulance arrives.",
+                "unconscious": "If the person is unconscious but breathing, place them in the recovery position: on their side with their upper leg bent at the knee and their head tilted back slightly to keep the airway open. Monitor their breathing until help arrives.",
+                "seizure": "If someone is having a seizure, clear the area around them to prevent injury. Do not restrain them or put anything in their mouth. Time the seizure if possible. After the seizure, place them in the recovery position if they're unconscious but breathing.",
+                "burn": "For burns, cool the burn with cool (not cold) running water for at least 10 minutes. Do not apply ice, butter, or ointments. Remove jewelry or tight items from the burned area before swelling occurs.",
+                "fracture": "For suspected fractures, do not move the injured area. Support the injury with soft padding. Do not attempt to realign bones. Wait for professional help.",
+                "stroke": "If you suspect a stroke, remember FAST: Face (is one side drooping?), Arms (can they raise both arms?), Speech (is it slurred?), Time (call emergency services immediately).",
+                "heart attack": "For suspected heart attack, have the person sit down and rest. If available and the person is not allergic, give them an aspirin to chew. Loosen tight clothing. Stay with them until the ambulance arrives.",
+                "choking": "If someone is choking and cannot speak, cough or breathe, stand behind them and slightly to one side. Support their chest with one hand and lean them forward. Give up to 5 sharp blows between their shoulder blades with the heel of your hand."
+            };
+            
+            // Request ambulance
+            requestBtn.addEventListener('click', function() {
+                const phoneNumber = document.getElementById('phone-number').value;
+                if (!phoneNumber) {
+                    alert('Please enter your phone number');
+                    return;
+                }
+                
+                requestBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                requestBtn.disabled = true;
+                
+                // Simulate location access and ambulance request
+                setTimeout(function() {
+                    requestForm.style.display = 'none';
+                    tracking.style.display = 'block';
+                    
+                    // Draw ambulance map
+                    drawAmbulanceMap();
+                }, 2000);
+            });
+            
+            // Show chat
+            showChatBtn.addEventListener('click', function() {
+                guidance.style.display = 'none';
+                chat.style.display = 'flex';
+            });
+            
+            // Send message
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (!message) return;
+                
+                // Add user message
+                const userMessageHTML = `
+                    <div class="chat-message user">
+                        <div class="message-bubble user">
+                            <p>${message}</p>
+                        </div>
+                    </div>
+                `;
+                chatMessages.innerHTML += userMessageHTML;
+                chatInput.value = '';
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Generate bot response
+                setTimeout(function() {
+                    let botResponse = "I'm here to help while the ambulance is on the way. Can you provide more details about the emergency?";
+                    
+                    // Check for keywords in user input
+                    const lowerInput = message.toLowerCase();
+                    for (const [keyword, response] of Object.entries(emergencyResponses)) {
+                        if (lowerInput.includes(keyword)) {
+                            botResponse = response;
+                            break;
+                        }
+                    }
+                    
+                    const botMessageHTML = `
+                        <div class="chat-message">
+                            <div class="message-bubble bot">
+                                <p>${botResponse}</p>
+                            </div>
+                        </div>
+                    `;
+                    chatMessages.innerHTML += botMessageHTML;
+                    
+                    // Scroll to bottom
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+            }
+            
+            sendBtn.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Draw ambulance map
+            function drawAmbulanceMap() {
+                const mapContainer = document.getElementById('ambulance-map');
+                const canvas = document.createElement('canvas');
+                canvas.width = mapContainer.clientWidth;
+                canvas.height = 300;
+                mapContainer.appendChild(canvas);
+                
+                const ctx = canvas.getContext('2d');
+                
+                // Draw map background
+                ctx.fillStyle = '#e5e7eb';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw roads
+                ctx.strokeStyle = '#9ca3af';
+                ctx.lineWidth = 6;
+                
+                // Horizontal roads
+                for (let y = 50; y < canvas.height; y += 80) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(canvas.width, y);
+                    ctx.stroke();
+                }
+                
+                // Vertical roads
+                for (let x = 50; x < canvas.width; x += 80) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, canvas.height);
+                    ctx.stroke();
+                }
+                
+                // Draw user location
+                const userX = canvas.width / 2 - 40;
+                const userY = canvas.height / 2 + 20;
+                
+                ctx.fillStyle = '#3b82f6';
+                ctx.beginPath();
+                ctx.arc(userX, userY, 10, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = '#1e40af';
+                ctx.font = '12px Arial';
+                ctx.fillText('You', userX - 10, userY - 20);
+                
+                // Draw ambulance location
+                const ambulanceX = canvas.width / 2 + 100;
+                const ambulanceY = canvas.height / 2 - 80;
+                
+                ctx.fillStyle = '#ef4444';
+                ctx.beginPath();
+                ctx.arc(ambulanceX, ambulanceY, 8, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = '#b91c1c';
+                ctx.font = '12px Arial';
+                ctx.fillText('Ambulance', ambulanceX - 30, ambulanceY - 15);
+                
+                // Draw route
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 3;
+                ctx.setLineDash([5, 3]);
+                ctx.beginPath();
+                ctx.moveTo(ambulanceX, ambulanceY);
+                ctx.bezierCurveTo(
+                    ambulanceX - 50, ambulanceY + 50,
+                    userX + 50, userY - 50,
+                    userX, userY
+                );
+                ctx.stroke();
+                
+                // Animate ambulance movement
+                let progress = 0;
+                const animateAmbulance = setInterval(function() {
+                    progress += 0.01;
+                    if (progress >= 1) {
+                        clearInterval(animateAmbulance);
+                        return;
+                    }
+                    
+                    // Clear previous drawing
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    
+                    // Redraw map background
+                    ctx.fillStyle = '#e5e7eb';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    
+                    // Redraw roads
+                    ctx.strokeStyle = '#9ca3af';
+                    ctx.lineWidth = 6;
+                    
+                    // Horizontal roads
+                    for (let y = 50; y < canvas.height; y += 80) {
+                        ctx.beginPath();
+                        ctx.moveTo(0, y);
+                        ctx.lineTo(canvas.width, y);
+                        ctx.stroke();
+                    }
+                    
+                    // Vertical roads
+                    for (let x = 50; x < canvas.width; x += 80) {
+                        ctx.beginPath();
+                        ctx.moveTo(x, 0);
+                        ctx.lineTo(x, canvas.height);
+                        ctx.stroke();
+                    }
+                    
+                    // Draw user location
+                    ctx.fillStyle = '#3b82f6';
+                    ctx.beginPath();
+                    ctx.arc(userX, userY, 10, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.fillStyle = '#1e40af';
+                    ctx.font = '12px Arial';
+                    ctx.fillText('You', userX - 10, userY - 20);
+                    
+                    // Calculate ambulance position along the curve
+                    const t = progress;
+                    const newX = (1-t)*(1-t)*(1-t)*ambulanceX + 3*(1-t)*(1-t)*t*(ambulanceX-50) + 3*(1-t)*t*t*(userX+50) + t*t*t*userX;
+                    const newY = (1-t)*(1-t)*(1-t)*ambulanceY + 3*(1-t)*(1-t)*t*(ambulanceY+50) + 3*(1-t)*t*t*(userY-50) + t*t*t*userY;
+                    
+                    // Draw ambulance at new position
+                    ctx.fillStyle = '#ef4444';
+                    ctx.beginPath();
+                    ctx.arc(newX, newY, 8, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.fillStyle = '#b91c1c';
+                    ctx.font = '12px Arial';
+                    ctx.fillText('Ambulance', newX - 30, newY - 15);
+                    
+                    // Draw route
+                    ctx.strokeStyle = '#ef4444';
+                    ctx.lineWidth = 3;
+                    ctx.setLineDash([5, 3]);
+                    ctx.beginPath();
+                    ctx.moveTo(ambulanceX, ambulanceY);
+                    ctx.bezierCurveTo(
+                        ambulanceX - 50, ambulanceY + 50,
+                        userX + 50, userY - 50,
+                        userX, userY
+                    );
+                    ctx.stroke();
+                }, 100);
+            }
+        });
+    </script>
+    <script src="js/chatbase-integration.js"></script>
+    <script src="js/emergency-manager.js"></script>
+</body>
+</html>
+

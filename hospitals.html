@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospitals Near You</title>
+    <link rel="shortcut icon" href="Untitled-73.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            background-color: #000000;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 100vw;
+            margin: 0 auto;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            z-index: 100;
+            height: 80px;
+            width: 100%;
+            background-color: #000000;
+            color: #fff;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            width: 58%;
+        }
+
+        .logo {
+            max-width: 150px;
+            padding-left: 20px;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: #ca6fff;
+        }
+
+        .emergency-btn {
+            background-color: #f70000;
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .emergency-btn:hover {
+            background-color: #ffffff;
+            transform: translateX(5px);
+            color: red;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        /* Hospitals Container */
+        .hospitals-container {
+            padding: 120px 20px 40px;
+            min-height: 100vh;
+        }
+        
+        .hospitals-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .hospitals-header h1 {
+            color: #ffffff;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .hospitals-header p {
+            color: #ffffff;
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+        
+        .search-container input {
+            width: 100%;
+            padding: 15px 20px;
+            padding-left: 50px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-container i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6200ff;
+            font-size: 20px;
+        }
+        .hospitals-container{
+            background-color: #ca6fff;
+        }
+        .hospitals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .hospital-card {
+            background-color: rgb(216, 255, 232);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .hospital-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 5px 15px rgb(213, 150, 255);
+        }
+        
+        .hospital-image {
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .hospital-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .hospital-info {
+            padding: 20px;
+        }
+        
+        .hospital-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #32007d;
+            margin-bottom: 10px;
+        }
+        
+        .hospital-address {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .hospital-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .stars {
+            color: #FFD700;
+            margin-right: 10px;
+        }
+        
+        .rating-count {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .hospital-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .detail {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .detail-icon {
+            background-color: #f0f0f0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 5px;
+            color: #32007d;
+        }
+        
+        .detail-text {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .hospital-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .view-map {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        
+        .book-appointment {
+            background-color: #32007d;
+            color: white;
+        }
+        
+        .waiting-time {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #f70000;
+            font-weight: 500;
+        }
+        
+        .waiting-time i {
+            margin-right: 5px;
+        }
+        
+        /* Hospital Detail Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .modal.active {
+            display: block;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            margin: 100px auto;
+            overflow: hidden;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #32007d;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .hospital-detail-image {
+            height: 250px;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .hospital-detail-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .hospital-detail-info {
+            margin-bottom: 20px;
+        }
+        
+        .hospital-detail-address {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #666;
+        }
+        
+        .hospital-detail-address i {
+            margin-right: 10px;
+            color: #32007d;
+        }
+        
+        .hospital-detail-contact {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #666;
+        }
+        
+        .hospital-detail-contact i {
+            margin-right: 10px;
+            color: #32007d;
+        }
+        
+        .hospital-detail-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .hospital-detail-rating .stars {
+            font-size: 18px;
+        }
+        
+        .hospital-detail-rating .rating-count {
+            font-size: 16px;
+        }
+        
+        .hospital-detail-description {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .hospital-detail-map {
+            height: 300px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .map-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #666;
+        }
+        
+        .appointment-section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .appointment-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #32007d;
+            margin-bottom: 15px;
+        }
+        
+        .queue-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .queue-item {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .queue-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #32007d;
+            margin-bottom: 5px;
+        }
+        
+        .queue-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .book-btn {
+            background-color: #32007d;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        
+        .book-btn:hover {
+            background-color: #7400a1;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #000000;
+            padding: 60px 0 30px;
+            color: #fff;
+            width: 100vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-content {
+            background-color: #000000;
+            width: auto;
+            height: auto;
+            border-radius: 40px;
+            width: 116vw;
+            align-self: center;
+            justify-self: center;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            /* border: solid 20px white; */
+        }
+
+        .footer-content h2 {
+            font-size: 60px;
+            font-weight: 700;
+            color: rgb(0, 255, 64);
+        }
+
+        .footer-content h2:hover {
+            color: #ffffff;
+            transition-delay: 0s;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: stretch;
+            align-items: start;
+            width: 100%;
+            height: auto;
+        }
+
+        .footer-links a {
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .footertexting {
+            display: flex;
+            align-content: center;
+            width: 50%;
+            height: 100%;
+        }
+
+        .footer-links a:hover {
+            color: #ff62f2;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hospitals-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .hospital-details {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .detail {
+                width: 48%;
+            }
+            
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #000;
+                padding: 20px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                transform: translateY(-20px);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+            
+            nav.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
+            .modal-content {
+                margin: 80px auto;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hospitals-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hospital-actions {
+                flex-direction: column;
+            }
+            
+            .queue-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="Clarachatbot">
+        <script>
+            (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="tu7moVg4H9PNO2Dgztf41";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+            </script>
+    </div>
+    <!-- <div class="loading-screen" id="loading-screen">
+        <div class="logo-container">
+            <div class="logo-text">
+                <span class="medi">Medi</span><span class="flow">Flow</span>
+            </div>
+        </div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div> -->
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Untitled-72-fTMoKvII8l183GuPbqfKVzFxK1Qcle.png" alt="MediFlow Logo">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="appointments.html">Appointment</a></li>
+                    <li><a href="hospitals.html" class="active">Hospitals</a></li>
+                    <li><a href="emergency.html" class="emergency-btn">Emergency</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <div class="hospitals-container">
+        <div class="hospitals-header">
+            <h1>Hospitals Near You</h1>
+            <p>Find the best hospitals in your area, check waiting times, and book appointments directly through our platform.</p>
+        </div>
+        
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" id="hospitalSearch" placeholder="Search hospitals by name, specialty, or location">
+        </div>
+        
+        <div class="hospitals-grid" id="hospitalsGrid">
+            <!-- Hospital cards will be dynamically generated here -->
+        </div>
+    </div>
+    
+    <!-- Hospital Detail Modal -->
+    <div class="modal" id="hospitalModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Hospital Name</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Modal content will be dynamically generated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footertexting">
+                    <div class="footer-links">
+                        <a href="index.html">HOME</a>
+                        <a href="chat.html">AI ASSISTANT</a>
+                        <a href="contact.html">CONTACT US</a>
+                        <a href="about.html">ABOUT US</a>
+                    </div>
+                    <div class="copyright">
+                        <h2>MediFlow</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('nav');
+        
+        mobileMenuBtn.addEventListener('click', function() {
+            this.classList.toggle('active');
+            nav.classList.toggle('active');
+        });
+        
+        // Sample hospital data
+        const hospitals = [
+            {
+                id: 1,
+                name: "City General Hospital",
+                address: "123 Main Street, Downtown",
+                image: "pexels-pixabay-269077.jpg",
+                rating: 4.5,
+                reviews: 432,
+                waitTime: "25 minutes",
+                doctors: "150+",
+                beds: "500",
+                specialty: "24/7 Emergency",
+                phone: "(555) 123-4567",
+                description: "City General Hospital is a leading healthcare provider offering comprehensive medical services. Our state-of-the-art facilities and dedicated staff ensure the highest quality of care for all patients.",
+                currentQueue: 15,
+                totalQueue: 30,
+                estimatedWait: "45 minutes"
+            },
+            {
+                id: 2,
+                name: "Memorial Medical Center",
+                address: "456 Park Avenue, Westside",
+                image: "pexels-tomfisk-1770818.jpg",
+                rating: 5.0,
+                reviews: 621,
+                waitTime: "15 minutes",
+                doctors: "200+",
+                beds: "750",
+                specialty: "Cardiac Center",
+                phone: "(555) 987-6543",
+                description: "Memorial Medical Center is renowned for its cardiac care and advanced surgical procedures. Our team of specialists is committed to providing personalized treatment plans for each patient.",
+                currentQueue: 8,
+                totalQueue: 25,
+                estimatedWait: "20 minutes"
+            },
+            {
+                id: 3,
+                name: "Riverside Health Center",
+                address: "789 River Road, Eastside",
+                image: "pexels-vlah-2440844.jpg",
+                rating: 4.0,
+                reviews: 318,
+                waitTime: "40 minutes",
+                doctors: "100+",
+                beds: "300",
+                specialty: "Maternity",
+                phone: "(555) 456-7890",
+                description: "Riverside Health Center specializes in maternal and child health services. Our modern maternity ward and experienced obstetricians ensure a safe and comfortable birthing experience.",
+                currentQueue: 20,
+                totalQueue: 35,
+                estimatedWait: "60 minutes"
+            },
+            {
+                id: 4,
+                name: "Community Medical Center",
+                address: "321 Oak Street, Northside",
+                image: "pexels-fatih-turan-63325184-16880602.jpg",
+                rating: 3.5,
+                reviews: 245,
+                waitTime: "10 minutes",
+                doctors: "80+",
+                beds: "200",
+                specialty: "Neurology",
+                phone: "(555) 789-0123",
+                description: "Community Medical Center offers specialized neurological services with cutting-edge diagnostic equipment. Our neurologists are experts in treating a wide range of neurological conditions.",
+                currentQueue: 5,
+                totalQueue: 15,
+                estimatedWait: "15 minutes"
+            }
+        ];
+        
+        // Generate hospital cards
+        function generateHospitalCards() {
+            const hospitalsGrid = document.getElementById('hospitalsGrid');
+            hospitalsGrid.innerHTML = '';
+            
+            hospitals.forEach(hospital => {
+                const card = document.createElement('div');
+                card.className = 'hospital-card';
+                card.setAttribute('data-id', hospital.id);
+                
+                // Generate star rating HTML
+                const starsHTML = generateStarsHTML(hospital.rating);
+                
+                card.innerHTML = `
+                    <div class="hospital-image">
+                        <img src="${hospital.image}" alt="${hospital.name}">
+                    </div>
+                    <div class="hospital-info">
+                        <h3 class="hospital-name">${hospital.name}</h3>
+                        <p class="hospital-address">${hospital.address}</p>
+                        <div class="hospital-rating">
+                            <div class="stars">
+                                ${starsHTML}
+                            </div>
+                            <span class="rating-count">(${hospital.reviews} reviews)</span>
+                        </div>
+                        <div class="waiting-time">
+                            <i class="fas fa-clock"></i> Current wait: ${hospital.waitTime}
+                        </div>
+                        <div class="hospital-details">
+                            <div class="detail">
+                                <div class="detail-icon">
+                                    <i class="fas fa-user-md"></i>
+                                </div>
+                                <span class="detail-text">${hospital.doctors} Doctors</span>
+                            </div>
+                            <div class="detail">
+                                <div class="detail-icon">
+                                    <i class="fas fa-procedures"></i>
+                                </div>
+                                <span class="detail-text">${hospital.beds} Beds</span>
+                            </div>
+                            <div class="detail">
+                                <div class="detail-icon">
+                                    <i class="fas fa-${getSpecialtyIcon(hospital.specialty)}"></i>
+                                </div>
+                                <span class="detail-text">${hospital.specialty}</span>
+                            </div>
+                        </div>
+                        <div class="hospital-actions">
+                            <a href="#" class="action-btn view-map" data-id="${hospital.id}">View Details</a>
+                            <a href="#" class="action-btn book-appointment" data-id="${hospital.id}">Book Now</a>
+                        </div>
+                    </div>
+                `;
+                
+                hospitalsGrid.appendChild(card);
+            });
+            
+            // Add event listeners to buttons
+            document.querySelectorAll('.view-map, .book-appointment, .hospital-card').forEach(element => {
+                element.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const hospitalId = this.getAttribute('data-id') || this.closest('.hospital-card').getAttribute('data-id');
+                    openHospitalModal(hospitalId);
+                });
+            });
+        }
+        
+        // Generate stars HTML based on rating
+        function generateStarsHTML(rating) {
+            let starsHTML = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 !== 0;
+            
+            for (let i = 0; i < fullStars; i++) {
+                starsHTML += '<i class="fas fa-star"></i>';
+            }
+            
+            if (hasHalfStar) {
+                starsHTML += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+            for (let i = 0; i < emptyStars; i++) {
+                starsHTML += '<i class="far fa-star"></i>';
+            }
+            
+            return starsHTML;
+        }
+        
+        // Get icon based on specialty
+        function getSpecialtyIcon(specialty) {
+            const specialtyMap = {
+                "24/7 Emergency": "ambulance",
+                "Cardiac Center": "heartbeat",
+                "Maternity": "baby",
+                "Neurology": "brain"
+            };
+            
+            return specialtyMap[specialty] || "hospital";
+        }
+        
+        // Open hospital modal
+        function openHospitalModal(hospitalId) {
+            const hospital = hospitals.find(h => h.id == hospitalId);
+            if (!hospital) return;
+            
+            const modal = document.getElementById('hospitalModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            
+            modalTitle.textContent = hospital.name;
+            
+            // Generate star rating HTML
+            const starsHTML = generateStarsHTML(hospital.rating);
+            
+            modalBody.innerHTML = `
+                <div class="hospital-detail-image">
+                    <img src="${hospital.image}" alt="${hospital.name}">
+                </div>
+                <div class="hospital-detail-info">
+                    <div class="hospital-detail-address">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>${hospital.address}</span>
+                    </div>
+                    <div class="hospital-detail-contact">
+                        <i class="fas fa-phone"></i>
+                        <span>${hospital.phone}</span>
+                    </div>
+                    <div class="hospital-detail-rating">
+                        <div class="stars">
+                            ${starsHTML}
+                        </div>
+                        <span class="rating-count">(${hospital.reviews} reviews)</span>
+                    </div>
+                    <p class="hospital-detail-description">${hospital.description}</p>
+                </div>
+                <div class="hospital-detail-map">
+                    <div class="map-placeholder">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112031.3655640462!2d77.27455909726561!3d28.660312300000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cf1cb7e297a63%3A0xe29f6e5fa5a26fa8!2sCITY%20CENTRAL%20HOSPITAL!5e0!3m2!1sen!2sin!4v1743334433270!5m2!1sen!2sin" width="700" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+                <div class="appointment-section">
+                    <h3>Current Queue Information</h3>
+                    <div class="queue-info">
+                        <div class="queue-item">
+                            <div class="queue-number">${hospital.currentQueue}</div>
+                            <div class="queue-label">Current Number</div>
+                        </div>
+                        <div class="queue-item">
+                            <div class="queue-number">${hospital.totalQueue}</div>
+                            <div class="queue-label">Total in Queue</div>
+                        </div>
+                        <div class="queue-item">
+                            <div class="queue-number">${hospital.estimatedWait}</div>
+                            <div class="queue-label">Estimated Wait</div>
+                        </div>
+                    </div>
+                    <button class="book-btn" data-id="${hospital.id}">Book Appointment</button>
+                </div>
+            `;
+            
+            // Add event listener to book button
+            modalBody.querySelector('.book-btn').addEventListener('click', function() {
+                const hospitalId = this.getAttribute('data-id');
+                bookAppointment(hospitalId);
+            });
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+        }
+        
+        // Close hospital modal
+        document.getElementById('closeModal').addEventListener('click', function() {
+            const modal = document.getElementById('hospitalModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('hospitalModal');
+            if (event.target === modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+        });
+        
+        // Book appointment function
+        function bookAppointment(hospitalId) {
+            const hospital = hospitals.find(h => h.id == hospitalId);
+            if (!hospital) return;
+            
+            // Increment queue number
+            hospital.totalQueue++;
+            const yourQueueNumber = hospital.totalQueue;
+            
+            // Redirect to appointment confirmation page or show confirmation
+            alert(`Appointment booked successfully at ${hospital.name}!\nYour queue number is: ${yourQueueNumber}\nEstimated wait time: ${hospital.estimatedWait}`);
+            
+            // Close modal
+            const modal = document.getElementById('hospitalModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+            
+            // Refresh hospital cards to show updated queue numbers
+            generateHospitalCards();
+        }
+        
+        // Search functionality
+        document.getElementById('hospitalSearch').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const filteredHospitals = hospitals.filter(hospital => 
+                hospital.name.toLowerCase().includes(searchTerm) ||
+                hospital.address.toLowerCase().includes(searchTerm) ||
+                hospital.specialty.toLowerCase().includes(searchTerm)
+            );
+            
+            const hospitalsGrid = document.getElementById('hospitalsGrid');
+            hospitalsGrid.innerHTML = '';
+            
+            if (filteredHospitals.length === 0) {
+                hospitalsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 30px; color: #666;">No hospitals found matching your search criteria.</p>';
+                return;
+            }
+            
+            filteredHospitals.forEach(hospital => {
+                const card = document.createElement('div');
+                card.className = 'hospital-card';
+                card.setAttribute('data-id', hospital.id);
+                
+                // Generate star rating HTML
+                const starsHTML = generateStarsHTML(hospital.rating);
+                
+                card.innerHTML = `
+                    <div class="hospital-image">
+                        <img src="${hospital.image}" alt="${hospital.name}">
+                    </div>
+                    <div class="hospital-info">
+                        <h3 class="hospital-name">${hospital.name}</h3>
+                        <p class="hospital-address">${hospital.address}</p>
+                        <div class="hospital-rating">
+                            <div class="stars">
+                                ${starsHTML}
+                            </div>
+                            <span class="rating-count">(${hospital.reviews} reviews)</span>
+                        </div>
+                        <div class="waiting-time">
+                            <i class="fas fa-clock"></i> Current wait: ${hospital.waitTime}
+                        </div>
+                        <div class="hospital-details">
+                            <div class="detail">
+                                <div class="detail-icon">
+                                    <i class="fas fa-user-md"></i>
+                                </div>
+                                <span class="detail-text">${hospital.doctors} Doctors</span>
+                            </div>
+                            <div class="detail">
+                                <div class="detail-icon">
+                                    <i class="fas fa-procedures"></i>
+                                </div>
+                                <span class="detail-text">${hospital.beds} Beds</span>
+                            </div>
+                            <div class="detail">
+                                <div class="detail-icon">
+                                    <i class="fas fa-${getSpecialtyIcon(hospital.specialty)}"></i>
+                                </div>
+                                <span class="detail-text">${hospital.specialty}</span>
+                            </div>
+                        </div>
+                        <div class="hospital-actions">
+                            <a href="#" class="action-btn view-map" data-id="${hospital.id}">View Details</a>
+                            <a href="#" class="action-btn book-appointment" data-id="${hospital.id}">Book Now</a>
+                        </div>
+                    </div>
+                `;
+                
+                hospitalsGrid.appendChild(card);
+            });
+            
+            // Add event listeners to buttons
+            document.querySelectorAll('.view-map, .book-appointment, .hospital-card').forEach(element => {
+                element.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const hospitalId = this.getAttribute('data-id') || this.closest('.hospital-card').getAttribute('data-id');
+                    openHospitalModal(hospitalId);
+                });
+            });
+        });
+        
+        // Initialize hospital cards on page load
+        window.addEventListener('load', generateHospitalCards);
+    </script>
+    <script src="js/chatbase-integration.js"></script>
+    <script src="js/hospital-manager.js"></script>
+</body>
+</html>

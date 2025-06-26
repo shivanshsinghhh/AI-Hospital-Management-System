@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="shortcut icon" href="Untitled-73.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 60%;
+            margin: 0 auto;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            z-index: 100;
+            height: 80px;
+            width: 100%;
+            background-color: #000000;
+            color: #fff;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo {
+            max-width: 150px;
+            padding-left: 20px;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: #ca6fff;
+        }
+
+        .emergency-btn {
+            background-color: #f70000;
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .emergency-btn:hover {
+            background-color: #ffffff;
+            transform: translateX(5px);
+            color: red;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        /* Login Container */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #9421ff, #16004b);
+            padding: 100px 20px 40px;
+        }
+        
+        .login-box {
+            background-color: rgb(226, 154, 255);
+            border-radius: 15px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .login-box h2 {
+            color: #32007d;
+            font-size: 28px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .input-group input:focus {
+            border-color: #9333EA;
+            outline: none;
+        }
+        
+        .login-btn {
+            background-color: #32007d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .login-btn:hover {
+            background-color: #7400a1;
+        }
+        
+        .login-options {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .login-options a {
+            color: #9333EA;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .login-options a:hover {
+            text-decoration: underline;
+        }
+        
+        .emergency-login {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .emergency-login a {
+            display: inline-block;
+            width: 100%;
+            background-color: #f70000;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .emergency-login a:hover {
+            background-color: #ffffff;
+            color: #f70000;
+            /* transform: translateY(2px); */
+        }
+
+        /* Footer */
+        footer {
+            background-color: #000000;
+            padding: 60px 0 30px;
+            color: #fff;
+        }
+
+        .footer-content {
+            background-color: #000000;
+            width: auto;
+            height: auto;
+            border-radius: 40px;
+        }
+
+        .footer-content h2 {
+            font-size: 60px;
+            font-weight: 700;
+            color: rgb(0, 255, 64);
+        }
+
+        .footer-content h2:hover {
+            color: #ffffff;
+            transition-delay: 0s;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: start;
+            width: 100%;
+            height: auto;
+        }
+
+        .footer-links a {
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .footertexting {
+            display: flex;
+            align-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .footer-links a:hover {
+            color: #ff62f2;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .login-box {
+                padding: 30px 20px;
+            }
+            
+            nav {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #000;
+                padding: 20px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                transform: translateY(-20px);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+            
+            nav.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Untitled-72-fTMoKvII8l183GuPbqfKVzFxK1Qcle.png" alt="MediFlow Logo">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="appointments.html">Appointment</a></li>
+                    <li><a href="hospitals.html">Hospitals</a></li>
+                    <li><a href="emergency.html" class="emergency-btn">Emergency</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Login to MediFlow</h2>
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+            <div class="login-options">
+                <p>Don't have an account? <a href="#">Sign up</a></p>
+                <p><a href="#">Forgot password?</a></p>
+            </div>
+            <div class="emergency-login">
+                <p>Need immediate assistance?</p>
+                <a href="emergency.html">Emergency Access</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footertexting">
+                    <div class="footer-links">
+                        <a href="index.html">HOME</a>
+                        <a href="chat.html">AI ASSISTANT</a>
+                        <a href="contact.html">CONTACT US</a>
+                        <a href="about.html">ABOUT US</a>
+                    </div>
+                    <div class="copyright">
+                        <h2>MediFlow</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('nav');
+        
+        mobileMenuBtn.addEventListener('click', function() {
+            this.classList.toggle('active');
+            nav.classList.toggle('active');
+        });
+        
+        // Login form submission
+        const loginForm = document.getElementById('loginForm');
+        
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // In a real app, you would send this data to your server for authentication
+            // For demo purposes, we'll just redirect to the dashboard
+            
+            // Store user info in localStorage to simulate being logged in
+            localStorage.setItem('mediflowUser', JSON.stringify({
+                email: email,
+                name: email.split('@')[0], // Use part of email as name for demo
+                isLoggedIn: true
+            }));
+            
+            // Redirect to dashboard
+            window.location.href = 'dashboard.html';
+        });
+    </script>
+</body>
+</html>

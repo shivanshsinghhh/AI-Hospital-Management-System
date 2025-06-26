@@ -1,0 +1,164 @@
+<!-- Add this button to the appointments page, right after the tabs section -->
+<div style="text-align: right; margin: 20px 0;">
+  <button id="quickAddAppointment" style="background-color: #32007d; color: white; border: none; padding: 10px 20px; border-radius: 30px; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center;">
+    <i class="fas fa-plus" style="margin-right: 8px;"></i> Quick Add Appointment
+  </button>
+</div>
+<!-- Add these script tags to the bottom of your appointments.html file, just before the closing </body> tag -->
+<script src="js/chatbase-integration.js"></script>
+<script src="js/appointment-manager.js"></script>
+
+<div id="quickAddModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000;">
+  <div style="background-color: white; width: 90%; max-width: 500px; margin: 100px auto; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+    <h2 style="margin-top: 0; color: #32007d;">Quick Add Appointment</h2>
+    <form id="quickAddForm">
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Hospital</label>
+        <select id="quickHospital" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" required>
+          <option value="">-- Select Hospital --</option>
+          <option value="City General Hospital">City General Hospital</option>
+          <option value="Memorial Medical Center">Memorial Medical Center</option>
+          <option value="Riverside Health Center">Riverside Health Center</option>
+          <option value="Community Medical Center">Community Medical Center</option>
+        </select>
+      </div>
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Doctor</label>
+        <select id="quickDoctor" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" required>
+          <option value="">-- Select Doctor --</option>
+          <option value="Dr. Sarah Johnson">Dr. Sarah Johnson</option>
+          <option value="Dr. Michael Chen">Dr. Michael Chen</option>
+          <option value="Dr. Anita Patel">Dr. Anita Patel</option>
+          <option value="Dr. Carlos Rodriguez">Dr. Carlos Rodriguez</option>
+        </select>
+      </div>
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Department</label>
+        <select id="quickDepartment" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" required>
+          <option value="">-- Select Department --</option>
+          <option value="Cardiology">Cardiology</option>
+          <option value="Neurology">Neurology</option>
+          <option value="Orthopedics">Orthopedics</option>
+          <option value="Pediatrics">Pediatrics</option>
+          <option value="Dermatology">Dermatology</option>
+        </select>
+      </div>
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Date</label>
+        <input type="date" id="quickDate" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" required>
+      </div>
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Time</label>
+        <select id="quickTime" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" required>
+          <option value="">-- Select Time --</option>
+          <option value="09:00 AM">9:00 AM</option>
+          <option value="09:30 AM">9:30 AM</option>
+          <option value="10:00 AM">10:00 AM</option>
+          <option value="10:30 AM">10:30 AM</option>
+          <option value="11:00 AM">11:00 AM</option>
+          <option value="11:30 AM">11:30 AM</option>
+          <option value="01:00 PM">1:00 PM</option>
+          <option value="01:30 PM">1:30 PM</option>
+          <option value="02:00 PM">2:00 PM</option>
+          <option value="02:30 PM">2:30 PM</option>
+          <option value="03:00 PM">3:00 PM</option>
+          <option value="03:30 PM">3:30 PM</option>
+        </select>
+      </div>
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Reason</label>
+        <input type="text" id="quickReason" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" placeholder="Brief description of your symptoms or reason" required>
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+        <button type="button" id="cancelQuickAdd" style="padding: 10px 20px; border: 1px solid #ddd; background-color: white; border-radius: 5px; cursor: pointer;">Cancel</button>
+        <button type="submit" style="padding: 10px 20px; background-color: #32007d; color: white; border: none; border-radius: 5px; cursor: pointer;">Add Appointment</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const quickAddBtn = document.getElementById('quickAddAppointment');
+    const quickAddModal = document.getElementById('quickAddModal');
+    const quickAddForm = document.getElementById('quickAddForm');
+    const cancelQuickAdd = document.getElementById('cancelQuickAdd');
+    
+    // Set minimum date to tomorrow
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    document.getElementById('quickDate').min = tomorrow.toISOString().split('T')[0];
+    
+    // Show modal when quick add button is clicked
+    if (quickAddBtn) {
+      quickAddBtn.addEventListener('click', function() {
+        quickAddModal.style.display = 'block';
+      });
+    }
+    
+    // Hide modal when cancel button is clicked
+    if (cancelQuickAdd) {
+      cancelQuickAdd.addEventListener('click', function() {
+        quickAddModal.style.display = 'none';
+      });
+    }
+    
+    // Handle form submission
+    if (quickAddForm) {
+      quickAddForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form values
+        const hospital = document.getElementById('quickHospital').value;
+        const doctor = document.getElementById('quickDoctor').value;
+        const department = document.getElementById('quickDepartment').value;
+        const date = document.getElementById('quickDate').value;
+        const time = document.getElementById('quickTime').value;
+        const reason = document.getElementById('quickReason').value;
+        
+        // Generate queue number
+        const queueNumber = Math.floor(Math.random() * 30) + 1;
+        
+        // Create appointment object
+        const appointment = {
+          id: Date.now().toString(),
+          hospital: hospital,
+          doctor: doctor,
+          department: department,
+          date: date,
+          time: time,
+          reason: reason,
+          queueNumber: queueNumber,
+          status: 'confirmed'
+        };
+        
+        // Get existing appointments from localStorage
+        const existingAppointments = localStorage.getItem('mediflow_appointments');
+        const appointments = existingAppointments ? JSON.parse(existingAppointments) : [];
+        
+        // Add new appointment to the beginning of the array
+        appointments.unshift(appointment);
+        
+        // Save to localStorage
+        localStorage.setItem('mediflow_appointments', JSON.stringify(appointments));
+        
+        // Show confirmation
+        alert(`Appointment booked successfully!\n\nHospital: ${hospital}\nDoctor: ${doctor}\nDate: ${date}\nTime: ${time}\n\nYour queue number is: #${queueNumber}`);
+        
+        // Hide modal
+        quickAddModal.style.display = 'none';
+        
+        // Reload the page to show the new appointment
+        window.location.reload();
+      });
+    }
+    
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+      if (event.target === quickAddModal) {
+        quickAddModal.style.display = 'none';
+      }
+    });
+  });
+</script>
+
